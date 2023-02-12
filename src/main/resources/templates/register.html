@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body class="bg-secondary">
+<header>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</header>
+<main role="main" class="bg-secondary">
+    <div class="jumbotron">
+        <div class="container text-light ">
+            <h1 class="display-3 ">
+                <strong class="bg-blur rounded border-left border-white pl-3 border-bottom">
+                    Register</strong></h1>
+        </div>
+        <div class="container bg-blur rounded p-5 mt-5 w-75">
+            <form  th:action="@{/auth/register}"
+                   th:method="POST"
+                   th:object="${userRegisterModel}"
+                  class=" text-center text-light">
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="username"
+                               name="username"
+                               th:value="*{username}"
+                               th:errorclass="bg-danger"
+                               aria-describedby="usernameHelpInline" placeholder="Username">
+
+                        <small th:if="${#fields.hasErrors('username')}"
+                                id="usernameHelpInline" class="bg-danger text-light rounded">
+                            Username already exists or username out of character limit (min 5, max 20).
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="firstName" class="col-sm-2 col-form-label">First name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="firstName"
+                               name="firstName"
+                               th:value="*{firstName}"
+                               aria-describedby="firstNameHelpInline" placeholder="First name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="lastName"
+                               name="lastName"
+                               th:value="*{lastName}"
+                               th:errorclass="bg-danger"
+                               aria-describedby="lastNameHelpInline" placeholder="Last name">
+                        <small th:if="${#fields.hasErrors('lastName')}"
+                                id="lastNameHelpInline" class="bg-danger text-light rounded">
+                            Last name length must be between 5 and 20 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               id="email"
+                               name="email"
+                               th:value="*{email}"
+                               th:errorclass="bg-danger"
+                               aria-describedby="emailHelpInline" placeholder="email@example.com">
+                        <small th:if="${#fields.hasErrors('email')}"
+                                id="emailHelpInline" class="bg-danger text-light rounded">
+                            Entered email address invalid or already registered.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control"
+                               id="password"
+                               name="password"
+                               th:value="*{password}"
+                               th:errorclass="bg-danger"
+                               aria-describedby="passwordHelpInline" placeholder="Password">
+                        <small th:if="${#fields.hasErrors('password')}"
+                                id="passwordHelpInline" class="bg-danger text-light rounded">
+                            Password length must be more than 3 characters long.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="confirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control"
+                               id="confirmPassword"
+                               name="confirmPassword"
+                               th:value="*{confirmPassword}"
+                               th:errorclass="bg-danger"
+                               aria-describedby="confirmPasswordHelpInline" placeholder="Confirm Password">
+                        <small th:if="${#fields.hasErrors('confirmPassword')}"
+                                id="confirmPasswordHelpInline" class="bg-danger text-light rounded">
+                            Passwords don't match.
+                        </small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info w-50">Register</button>
+            </form>
+            <hr class="bg-light">
+        </div>
+    </div>
+</main>
+<footer class="container">
+    <p>&copy;SoftUni Spring Team 2021. All rights reserved.</p>
+</footer>
+</body>
+</html>
