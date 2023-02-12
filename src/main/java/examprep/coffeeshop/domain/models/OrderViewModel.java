@@ -12,5 +12,6 @@ import java.math.BigDecimal;
 public class OrderViewModel {
     private String name;
     private BigDecimal price;
+    private String category;
     private String employee;
 }

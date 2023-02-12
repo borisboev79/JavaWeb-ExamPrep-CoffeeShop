@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.String.valueOf;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
@@ -57,6 +59,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(order -> OrderViewModel.builder()
                         .name(order.getName())
                         .price(order.getPrice())
+                        .category(valueOf(order.getCategory().getName()))
                         .employee(order.getEmployee().getUsername())
                         .build()).collect(Collectors.toList());
 
