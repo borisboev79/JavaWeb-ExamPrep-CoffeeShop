@@ -3,6 +3,7 @@ package examprep.coffeeshop.services.order;
 import examprep.coffeeshop.domain.entities.Order;
 import examprep.coffeeshop.domain.entities.User;
 import examprep.coffeeshop.domain.helpers.LoggedUser;
+import examprep.coffeeshop.domain.models.OrderViewModel;
 import examprep.coffeeshop.domain.models.binding.OrderAddModel;
 import examprep.coffeeshop.repositories.CategoryRepository;
 import examprep.coffeeshop.repositories.OrderRepository;
@@ -10,6 +11,9 @@ import examprep.coffeeshop.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -40,6 +44,21 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository.saveAndFlush(order);
 
 
+
+
+
+    }
+
+    @Override
+    public List<OrderViewModel> getAllOrders() {
+
+        return this.orderRepository.findAll()
+                .stream()
+                .map(order -> OrderViewModel.builder()
+                        .name(order.getName())
+                        .price(order.getPrice())
+                        .employee(order.getEmployee().getUsername())
+                        .build()).collect(Collectors.toList());
 
     }
 }
