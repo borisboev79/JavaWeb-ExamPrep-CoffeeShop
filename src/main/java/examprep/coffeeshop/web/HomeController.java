@@ -29,9 +29,11 @@ public class HomeController {
     public ModelAndView getHome(ModelAndView model){
 
         List<OrderViewModel> orders = this.orderService.getAllOrders();
+        int totalNeededTime = orders.stream().mapToInt(OrderViewModel::getNeededTime).sum();
 
         model.setViewName("home");
         model.addObject("orders", orders);
+        model.addObject("totalTime", totalNeededTime);
 
         return model;
     }

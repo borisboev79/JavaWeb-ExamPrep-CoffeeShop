@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public void saveOrder(OrderAddModel model) {
         Order order = new Order();
         mapper.map(model, order);
-        order.setCategory(this.categoryRepository.findByName(model.getCategory()).get());
+     //   order.setCategory(this.categoryRepository.findByName(model.getCategory()).get());
         order.setEmployee(this.userRepository.findById(loggedUser.getId()).orElse(new User()));
 
         this.orderRepository.saveAndFlush(order);
@@ -54,12 +54,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderViewModel> getAllOrders() {
 
+
+
+
         return this.orderRepository.findAll()
                 .stream()
                 .map(order -> OrderViewModel.builder()
                         .name(order.getName())
                         .price(order.getPrice())
-                        .category(valueOf(order.getCategory().getName()))
+                        .category(order.getCategory().getName().name())
+                        .neededTime(order.getCategory().getNeededTime())
                         .employee(order.getEmployee().getUsername())
                         .build()).collect(Collectors.toList());
 

@@ -14,7 +14,7 @@
         </div>
         <div class="row mt-3 mb-3 ">
             <div class="col-5 bg-blur rounded m-auto pb-3">
-                <h3 class="mySticky bg-gray text-light rounded">Тime to prepare all orders(in min): 10</h3>
+                <h3 class="mySticky bg-gray text-light rounded" >Time to prepare all orders (in min): <span th:text="${totalTime}"></span></h3>
                 <div    th:each="order : ${orders}"
                         th:object="${order}"
                         th:switch="*{category}"
