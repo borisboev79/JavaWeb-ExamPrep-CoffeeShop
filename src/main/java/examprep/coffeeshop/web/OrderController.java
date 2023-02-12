@@ -34,7 +34,7 @@ public class OrderController {
 
         if(bindingResult.hasErrors()){
             redirectAttributes
-                    .addFlashAttribute("orderAddMode;", orderAddModel)
+                    .addFlashAttribute("orderAddModel", orderAddModel)
                     .addFlashAttribute("org.springframework.validation.BindingResult.orderAddModel", bindingResult);
 
             return "redirect:add";
