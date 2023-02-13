@@ -1,11 +1,12 @@
 package examprep.coffeeshop.web;
 
+import examprep.coffeeshop.domain.models.EmployeeViewModel;
 import examprep.coffeeshop.domain.models.OrderViewModel;
 import examprep.coffeeshop.services.order.OrderService;
+import examprep.coffeeshop.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.List;
 @RequestMapping("/")
 public class HomeController {
     private final OrderService orderService;
+    private final UserService userService;
 
     @Autowired
-    public HomeController(OrderService orderService) {
+    public HomeController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -29,12 +32,19 @@ public class HomeController {
     public ModelAndView getHome(ModelAndView model){
 
         List<OrderViewModel> orders = this.orderService.getAllOrders();
-        int totalNeededTime = orders.stream().mapToInt(OrderViewModel::getNeededTime).sum();
+        List<EmployeeViewModel> employees = this.userService.getAllEmployeesAndOrders();
 
         model.setViewName("home");
         model.addObject("orders", orders);
-        model.addObject("totalTime", totalNeededTime);
+        model.addObject("totalTime", orders.stream().mapToInt(OrderViewModel::getNeededTime).sum());
+        model.addObject("employees", employees);
 
         return model;
+    }
+
+    @GetMapping("/ready/{id}")
+    public String readyOrder(@PathVariable Long id){
+        this.orderService.deleteOrderById(id);
+        return "redirect:/home";
     }
 }

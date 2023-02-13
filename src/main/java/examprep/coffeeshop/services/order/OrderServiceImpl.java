@@ -12,10 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-
-import static java.lang.String.valueOf;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -40,32 +40,33 @@ public class OrderServiceImpl implements OrderService {
     public void saveOrder(OrderAddModel model) {
         Order order = new Order();
         mapper.map(model, order);
-     //   order.setCategory(this.categoryRepository.findByName(model.getCategory()).get());
+        order.setCategory(this.categoryRepository.findByName(model.getCategory()).orElseThrow(NoSuchElementException::new));
         order.setEmployee(this.userRepository.findById(loggedUser.getId()).orElse(new User()));
 
         this.orderRepository.saveAndFlush(order);
-
-
-
-
-
     }
 
     @Override
     public List<OrderViewModel> getAllOrders() {
 
-
-
-
         return this.orderRepository.findAll()
                 .stream()
+                .sorted(Comparator.comparing(Order::getPrice).reversed())
                 .map(order -> OrderViewModel.builder()
+                        .id(order.getId())
                         .name(order.getName())
                         .price(order.getPrice())
                         .category(order.getCategory().getName().name())
                         .neededTime(order.getCategory().getNeededTime())
                         .employee(order.getEmployee().getUsername())
-                        .build()).collect(Collectors.toList());
-
+                        .build())
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteOrderById(Long id) {
+        this.orderRepository.delete(this.orderRepository.findById(id).orElseThrow(NoSuchElementException::new));
+    }
+
+
 }

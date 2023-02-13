@@ -9,4 +9,7 @@ public interface OrderService {
     void saveOrder(OrderAddModel model);
 
     List<OrderViewModel> getAllOrders();
+
+    void deleteOrderById(Long id);
+
 }

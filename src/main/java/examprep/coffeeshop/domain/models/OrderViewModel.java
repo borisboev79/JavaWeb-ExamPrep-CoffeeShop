@@ -1,6 +1,5 @@
 package examprep.coffeeshop.domain.models;
 
-import examprep.coffeeshop.domain.entities.Category;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class OrderViewModel {
+    private Long id;
     private String name;
     private BigDecimal price;
     private String category;
